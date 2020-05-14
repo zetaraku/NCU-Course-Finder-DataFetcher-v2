@@ -1,0 +1,36 @@
+{
+  "name": "ncu-course-finder-datafetcher",
+  "version": "2.0.0",
+  "description": "The new script to fetch and update the database for NCU-Course-Finder.",
+  "main": "index.js",
+  "scripts": {
+    "update": "babel-node src/script/update.js",
+    "update-all": "babel-node src/script/update-all.js",
+    "serve": "babel-node src/script/serve.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zetaraku/NCU-Course-Finder-DataFetcher-v2.git"
+  },
+  "author": "Raku Zeta <zetaraku@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zetaraku/NCU-Course-Finder-DataFetcher-v2/issues"
+  },
+  "homepage": "https://github.com/zetaraku/NCU-Course-Finder-DataFetcher-v2#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "moment": "^2.25.3",
+    "sqlite3": "^4.2.0",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.6"
+  }
+}
