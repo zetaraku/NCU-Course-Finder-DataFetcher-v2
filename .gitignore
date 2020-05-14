@@ -1,0 +1,5 @@
+/node_modules/
+/data/dynamic/*
+/db/*
+.env
+!.gitkeep
