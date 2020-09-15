@@ -3,11 +3,10 @@ import { sql } from '../lib/sqlite3.js';
 let sqlStatements = {
 	courseInsert: null,
 	courseExtraInsert: null,
-	courseExtraInsertV2: null,
 };
 
 export async function insertCollege(db, college) {
-	await db.run(sql`
+	return await db.run(sql`
 		INSERT INTO colleges (
 			college_id, college_name
 		) VALUES (
@@ -16,7 +15,7 @@ export async function insertCollege(db, college) {
 	`, [college.collegeId, college.collegeName]);
 }
 export async function insertDepartment(db, department) {
-	await db.run(sql`
+	return await db.run(sql`
 		INSERT INTO departments (
 			department_id, department_name, college_id
 		) VALUES (
@@ -42,7 +41,7 @@ export async function insertCourseBase(db, course) {
 			SET arr_department_id = arr_department_id || ';' || EXCLUDED.arr_department_id
 	`);
 
-	await sqlStatements.courseInsert.run([
+	return await sqlStatements.courseInsert.run([
 		course.serialNo,
 		course.classNo, course.title, course.credit, course.passwordCard,
 		(course.teachers||[]).join(';'), (course.classTimes||[]).join(';'),
@@ -67,7 +66,7 @@ export async function insertCourseExtra(db, courseExtra) {
 		) ON CONFLICT (serial_no) IGNORE
 	`);
 
-	await sqlStatements.courseExtraInsert.run([
+	return await sqlStatements.courseExtraInsert.run([
 		courseExtra.serialNo,
 		courseExtra.courseType,
 		courseExtra.isPreSelect, courseExtra.isFirstRun, courseExtra.isMasterDoctor, courseExtra.isClosed,
