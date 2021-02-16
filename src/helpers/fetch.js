@@ -21,6 +21,9 @@ const course_header = {
 	'Accept-Language': 'zh-TW',
 };
 
+/**
+ * @deprecated NCU API is dead.
+ */
 export async function fetchStatus() {
 	let resp = await axios.get(
 		`${ncu_api_remote_url}/course/v1/status`,
@@ -29,6 +32,9 @@ export async function fetchStatus() {
 	return preprocessStatus(resp.data);
 }
 
+/**
+ * @deprecated NCU API is dead.
+ */
 export async function fetchColleges() {
 	let resp = await axios.get(
 		`${ncu_api_remote_url}/course/v1/colleges`,
@@ -37,6 +43,9 @@ export async function fetchColleges() {
 	return resp.data.map($ => preprocessCollege($));
 }
 
+/**
+ * @deprecated NCU API is dead.
+ */
 export async function fetchDepartments(collegeId) {
 	let resp = await axios.get(
 		`${ncu_api_remote_url}/course/v1/colleges/${collegeId}/departments`,
@@ -55,8 +64,10 @@ export async function fetchCourseBases(departmentId, collegeId) {
 	return (data.Courses.Course||[]).map(({ $ }) => preprocessCourseBase($, departmentId));
 }
 
+/**
+ * @deprecated NCU API is dead.
+ */
 export async function fetchCourseExtras(departmentId) {
-	// fetch extra information through NCU API
 	let resp = await axios.get(
 		`${ncu_api_remote_url}/course/v1/departments/${departmentId}/courses`,
 		{ headers: ncu_api_header },
