@@ -1,5 +1,6 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
+import cheerio from 'cheerio';
 import dotenv from 'dotenv';
 import {
 	preprocessStatus,
@@ -52,6 +53,24 @@ export async function fetchDepartments(collegeId) {
 		{ headers: ncu_api_header },
 	);
 	return resp.data.map($ => preprocessDepartment($, collegeId));
+}
+
+export async function fetchCollegesWithDepartments() {
+	let response = await axios.get('https://cis.ncu.edu.tw/Course/main/query/byUnion');
+	let $ = cheerio.load(response.data);
+
+	let colleges = $('#byUnion_table table > tbody').get().map((table, i) => {
+		let collegeId = `collegeI${i}`;
+		let collegeName = $(table).find('tr:nth-child(1) th').contents().eq(0).text();
+		let departments = $(table).find('tr:nth-child(2) td ul li a').get().map(anchor => {
+			let departmentId = $(anchor).attr('href').replace('/Course/main/query/byUnion?dept=', '');
+			let departmentName = $(anchor).text().replace(/\(\d+\)$/, '');
+			return { departmentId, departmentName, collegeId };
+		});
+		return { collegeId, collegeName, departments };
+	});
+
+	return colleges;
 }
 
 export async function fetchCourseBases(departmentId, collegeId) {
