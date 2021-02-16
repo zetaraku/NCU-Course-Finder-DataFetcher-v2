@@ -29,7 +29,7 @@ export async function retrieveDepartments(db) {
 export async function retrieveCourses(db) {
 	let result = await db.all(sql`
 		SELECT * FROM (
-			course_bases INNER JOIN course_extras USING (serial_no)
+			course_bases LEFT JOIN course_extras USING (serial_no)
 		);
 	`);
 	return result.map(row => ({
