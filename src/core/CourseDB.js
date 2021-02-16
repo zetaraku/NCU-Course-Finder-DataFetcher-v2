@@ -3,17 +3,13 @@ import path from 'path';
 import moment from 'moment';
 import SQLite3DBWrapper, { sql } from '../lib/sqlite3.js';
 import {
-	fetchStatus,
-	fetchColleges,
-	fetchDepartments,
+	fetchCollegesWithDepartments,
 	fetchCourseBases,
-	fetchCourseExtras,
 } from '../helpers/fetch';
 import {
 	insertCollege,
 	insertDepartment,
 	insertCourseBase,
-	insertCourseExtra,
 } from '../helpers/insert';
 import {
 	retrieveColleges,
@@ -36,19 +32,13 @@ export default class CourseDB {
 		await this.db.exec(initScript);
 	}
 	async updateAll() {
-		let statusToInsert = null;
 		let collegesToInsert = [];
 		let departmentsToInsert = [];
 		let coursesToInsert = [];
-		let courseExtrasToInsert = [];
 
 		try {
-			console.log('Checking status...');
-			let status = statusToInsert = await fetchStatus();
-			console.log(`OK, current semester: ${status.year}-${status.semester}, current status: ${status.stage}`);
-
 			console.log('Start fetching all colleges...');
-			let colleges = await fetchColleges();
+			let colleges = await fetchCollegesWithDepartments();
 			console.log(`OK, ${colleges.length} colleges fetched.`);
 
 			for (let [collegeIndex, college] of colleges.entries()) {
@@ -56,7 +46,7 @@ export default class CourseDB {
 				collegesToInsert.push(college);
 
 				console.log(`  Start fetching departments of ${college.collegeId}...`);
-				let departments = await fetchDepartments(college.collegeId);
+				let departments = college.departments;
 				console.log(`  OK, ${departments.length} departments fetched.`);
 
 				for (let [departmentIndex, department] of departments.entries()) {
@@ -68,12 +58,6 @@ export default class CourseDB {
 					console.log(`    OK, ${courses.length} course-bases fetched.`);
 
 					coursesToInsert.push(...courses);
-
-					console.log(`    Start fetching course-extras of ${department.departmentId}...`);
-					let courseExtras = await fetchCourseExtras(department.departmentId);
-					console.log(`    OK, ${courseExtras.length} course-extras fetched.`);
-
-					courseExtrasToInsert.push(...courseExtras)
 				}
 			}
 		} catch (e) {
@@ -90,20 +74,12 @@ export default class CourseDB {
 			console.log(`--------------------------------`);
 			console.log(`Recreating tables...`);
 			await this.initAll();
-			console.log(`Writing status...`);
-			await this.writeVar('STATUS', [
-				statusToInsert.year,
-				statusToInsert.semester,
-				statusToInsert.stage,
-			].join(';'));
 			console.log(`Inserting ${collegesToInsert.length} colleges...`);
 			await Promise.all(collegesToInsert.map(college => insertCollege(db, college)));
 			console.log(`Inserting ${departmentsToInsert.length} departments...`);
 			await Promise.all(departmentsToInsert.map(department => insertDepartment(db, department)));
 			console.log(`Inserting ${coursesToInsert.length} course-bases...`);
 			await Promise.all(coursesToInsert.map(course => insertCourseBase(db, course)));
-			console.log(`Inserting ${courseExtrasToInsert.length} course-extras...`);
-			await Promise.all(courseExtrasToInsert.map(courseExtra => insertCourseExtra(db, courseExtra)));
 			console.log(`Writing LAST_UPDATE_TIME...`);
 			await this.writeVar('LAST_UPDATE_TIME', moment().format());
 		} catch (e) {
