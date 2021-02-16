@@ -83,6 +83,10 @@ export default class CourseDB {
 
 		try {
 			let db = this.db;
+			await this.db.exec(sql`
+				PRAGMA synchronous = OFF;
+				PRAGMA journal_mode = MEMORY;
+			`);
 			console.log(`--------------------------------`);
 			console.log(`Recreating tables...`);
 			await this.initAll();
@@ -140,6 +144,10 @@ export default class CourseDB {
 
 		try {
 			let db = this.db;
+			await this.db.exec(sql`
+				PRAGMA synchronous = OFF;
+				PRAGMA journal_mode = MEMORY;
+			`);
 			console.log(`--------------------------------`);
 			console.log(`Truncating course-bases table...`);
 			await this.db.exec(sql`

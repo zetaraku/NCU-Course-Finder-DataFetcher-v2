@@ -1,6 +1,3 @@
-PRAGMA synchronous = OFF;
-PRAGMA journal_mode = MEMORY;
-
 DROP TABLE IF EXISTS global_vars;
 DROP TABLE IF EXISTS colleges;
 DROP TABLE IF EXISTS departments;
