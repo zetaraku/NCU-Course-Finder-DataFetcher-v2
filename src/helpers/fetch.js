@@ -80,7 +80,7 @@ export async function fetchCourseBases(departmentId, collegeId) {
 		{ headers: course_header },
 	);
 	let data = await xml2js.parseStringPromise(resp.data);
-	return (data.Courses.Course||[]).map(({ $ }) => preprocessCourseBase($, departmentId));
+	return (data.Courses.Course||[]).map(({ $ }) => preprocessCourseBase($, departmentId, collegeId));
 }
 
 /**

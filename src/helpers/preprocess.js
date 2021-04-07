@@ -21,7 +21,7 @@ export function preprocessDepartment($, collegeId) {
 		collegeId,
 	};
 }
-export function preprocessCourseBase($, departmentId) {
+export function preprocessCourseBase($, departmentId, collegeId) {
 	return {
 		serialNo: Number($.SerialNo),
 		classNo: $.ClassNo,
@@ -37,6 +37,7 @@ export function preprocessCourseBase($, departmentId) {
 		admitCnt: Number($.admitCnt),
 		waitCnt: Number($.waitCnt),
 
+		collegeId,
 		departmentId,
 	};
 }

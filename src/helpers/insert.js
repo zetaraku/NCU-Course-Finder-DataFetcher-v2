@@ -30,15 +30,17 @@ export async function insertCourseBase(db, course) {
 			class_no, title, credit, password_card,
 			arr_teachers, arr_class_times,
 			limit_cnt, admit_cnt, wait_cnt,
-			arr_department_id
+			arr_college_id, arr_department_id
 		) VALUES (
 			$1,
 			$2, $3, $4, $5,
 			$6, $7,
 			$8, $9, $10,
-			$11
+			$11, $12
 		) ON CONFLICT (serial_no) DO UPDATE
-			SET arr_department_id = arr_department_id || ';' || EXCLUDED.arr_department_id
+			SET
+				arr_college_id = arr_college_id || ';' || EXCLUDED.arr_college_id,
+				arr_department_id = arr_department_id || ';' || EXCLUDED.arr_department_id
 	`);
 
 	return await sqlStatements.courseInsert.run([
@@ -46,7 +48,7 @@ export async function insertCourseBase(db, course) {
 		course.classNo, course.title, course.credit, course.passwordCard,
 		(course.teachers||[]).join(';'), (course.classTimes||[]).join(';'),
 		course.limitCnt, course.admitCnt, course.waitCnt,
-		course.departmentId,
+		course.collegeId, course.departmentId,
 	]);
 }
 export async function insertCourseExtra(db, courseExtra) {

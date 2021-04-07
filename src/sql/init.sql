@@ -45,7 +45,7 @@ CREATE TABLE course_bases (
 	admit_cnt INTEGER,
 	wait_cnt INTEGER,
 
-	-- arr_college_id VARCHAR(160),
+	arr_college_id VARCHAR(160),
 	arr_department_id VARCHAR(160),
 
 	PRIMARY KEY (serial_no)
