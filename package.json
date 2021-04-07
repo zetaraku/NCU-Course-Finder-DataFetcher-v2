@@ -4,8 +4,8 @@
   "description": "The new script to fetch and update the database for NCU-Course-Finder.",
   "main": "index.js",
   "scripts": {
-    "update": "babel-node src/script/update.js",
-    "serve": "babel-node src/script/serve.js",
+    "update": "node -r esm src/script/update.js",
+    "serve": "node -r esm src/script/serve.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,8 +28,6 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/node": "^7.8.7",
-    "@babel/preset-env": "^7.9.6"
+    "esm": "^3.2.25"
   }
 }
