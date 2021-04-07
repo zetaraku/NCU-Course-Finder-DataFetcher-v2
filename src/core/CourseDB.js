@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import moment from 'moment';
 import SQLite3DBWrapper, { sql } from '../lib/sqlite3.js';
 import {
 	fetchCollegesWithDepartments,
@@ -75,7 +74,7 @@ export default class CourseDB {
 			console.log(`Inserting ${coursesToInsert.length} courses...`);
 			await Promise.all(coursesToInsert.map(course => insertCourseBase(db, course)));
 			console.log(`Writing LAST_UPDATE_TIME...`);
-			await this.writeVar('LAST_UPDATE_TIME', moment().format());
+			await this.writeVar('LAST_UPDATE_TIME', new Date().toISOString());
 		} catch (e) {
 			console.error('Encounter an error while inserting database:', e);
 			process.exit(-2);
