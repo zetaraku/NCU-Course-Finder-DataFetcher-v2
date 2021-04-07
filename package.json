@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "update": "babel-node src/script/update.js",
-    "update-all": "babel-node src/script/update-all.js",
     "serve": "babel-node src/script/serve.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
