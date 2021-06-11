@@ -55,16 +55,16 @@ export async function retrieveCourses(db) {
 
 		/* Course Extras: */
 
-		courseType: row.course_type,
+		// courseType: row.course_type,
 
-		isPreSelect: extractBool(row.is_pre_select),
-		isFirstRun: extractBool(row.is_first_run),
-		isMasterDoctor: extractBool(row.is_master_doctor),
-		isClosed: extractBool(row.is_closed),
+		// isPreSelect: extractBool(row.is_pre_select),
+		// isFirstRun: extractBool(row.is_first_run),
+		// isMasterDoctor: extractBool(row.is_master_doctor),
+		// isClosed: extractBool(row.is_closed),
 
-		classRooms: deflateArray(row.class_rooms, ';'),
+		// classRooms: deflateArray(row.class_rooms, ';'),
 
-		memo: row.memo,
+		// memo: row.memo,
 	}));
 }
 
