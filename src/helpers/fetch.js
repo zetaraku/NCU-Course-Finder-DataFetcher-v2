@@ -1,7 +1,6 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
 import cheerio from 'cheerio';
-import dotenv from 'dotenv';
 import {
 	preprocessStatus,
 	preprocessCollege,
@@ -9,8 +8,7 @@ import {
 	preprocessCourseBase,
 	preprocessCourseExtra,
 } from './preprocess';
-
-dotenv.config();
+import 'dotenv/config';
 
 const ncu_api_remote_url = process.env.NCU_API_REMOTE_URL;
 const ncu_api_header = {

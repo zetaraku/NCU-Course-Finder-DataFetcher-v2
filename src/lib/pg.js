@@ -1,7 +1,5 @@
 import pg from 'pg';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import 'dotenv/config';
 
 let pool = new pg.Pool(); {
 	pool.on('error', (err, client) => {

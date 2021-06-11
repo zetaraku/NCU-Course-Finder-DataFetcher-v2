@@ -1,8 +1,6 @@
 import fs from 'fs';
-import dotenv from 'dotenv';
 import CourseDB from '../core/CourseDB';
-
-dotenv.config();
+import 'dotenv/config';
 
 (async function update() {
 	// update database file
