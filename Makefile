@@ -1,5 +1,5 @@
 BUCKET_NAME = ncucf-data
-AWS = /usr/local/bin/aws
+AWS = aws
 
 .PHONY: init-bucket updateupload clear-bucket
 
