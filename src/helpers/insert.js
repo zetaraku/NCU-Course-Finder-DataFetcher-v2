@@ -55,24 +55,24 @@ export async function insertCourseExtra(db, courseExtra) {
 	sqlStatements.courseExtraInsert = sqlStatements.courseExtraInsert || await db.prepare(sql`
 		INSERT INTO course_extras (
 			serial_no,
-			course_type,
-			is_pre_select, is_first_run, is_master_doctor, is_closed,
-			class_rooms,
-			memo
+			course_type
+			-- is_pre_select, is_first_run, is_master_doctor, is_closed,
+			-- class_rooms,
+			-- memo
 		) VALUES (
 			$1,
-			$2,
-			$3, $4, $5, $6,
-			$7,
-			$8
-		) ON CONFLICT (serial_no) IGNORE
+			$2
+			-- $3, $4, $5, $6,
+			-- $7,
+			-- $8
+		)
 	`);
 
 	return await sqlStatements.courseExtraInsert.run([
 		courseExtra.serialNo,
 		courseExtra.courseType,
-		courseExtra.isPreSelect, courseExtra.isFirstRun, courseExtra.isMasterDoctor, courseExtra.isClosed,
-		(courseExtra.classRooms||[]).join(';'),
-		courseExtra.memo,
+		// courseExtra.isPreSelect, courseExtra.isFirstRun, courseExtra.isMasterDoctor, courseExtra.isClosed,
+		// (courseExtra.classRooms||[]).join(';'),
+		// courseExtra.memo,
 	]);
 }

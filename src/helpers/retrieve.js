@@ -55,7 +55,7 @@ export async function retrieveCourses(db) {
 
 		/* Course Extras: */
 
-		// courseType: row.course_type,
+		courseType: row.course_type,
 
 		// isPreSelect: extractBool(row.is_pre_select),
 		// isFirstRun: extractBool(row.is_first_run),

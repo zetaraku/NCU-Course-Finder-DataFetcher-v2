@@ -73,10 +73,12 @@ export async function fetchCollegesWithDepartments() {
 
 export async function fetchCourseBases(departmentId, collegeId) {
 	// fetch through NCU Course Schedule Planning System internal API
-	let resp = await axios.get(
-		`${course_remote_url}?id=${departmentId}`,
-		{ headers: course_header },
-	);
+	let resp = await axios.get(course_remote_url, {
+		headers: course_header,
+		params: {
+			id: departmentId,
+		},
+	});
 	let data = await xml2js.parseStringPromise(resp.data);
 	return (data.Courses.Course||[]).map(({ $ }) => preprocessCourseBase($, departmentId, collegeId));
 }
@@ -90,4 +92,31 @@ export async function fetchCourseExtras(departmentId) {
 		{ headers: ncu_api_header },
 	);
 	return resp.data.map($ => preprocessCourseExtra($));
+}
+
+export async function fetchAllCourseExtras() {
+	let result = [];
+
+	for (let pageNo = 1; true; pageNo++) {
+		let response = await axios.get(`https://cis.ncu.edu.tw/Course/main/query/byKeywords`, {
+			params: {
+				'd-49489-p': pageNo,
+				query: true,
+			},
+		});
+		let $ = cheerio.load(response.data);
+
+		let courseExtras = $('#item tbody tr').get().map(tr => {
+			let serialNo = $(tr).find('td:nth-child(1)').html().split('<br>')[0];
+			let courseType = $(tr).find('td:nth-child(7)').text().trim();
+			return { serialNo, courseType }
+		});
+		result.push(...courseExtras);
+
+		// break if no next page
+		let hasNextPage = $('.pagelinks > :last-child').is('a');
+		if (!hasNextPage) break;
+	}
+
+	return result.map(preprocessCourseExtra);
 }

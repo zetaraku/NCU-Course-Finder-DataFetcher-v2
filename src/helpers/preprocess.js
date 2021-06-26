@@ -44,20 +44,20 @@ export function preprocessCourseBase($, departmentId, collegeId) {
 export function preprocessCourseExtra($) {
 	return {
 		serialNo: $.serialNo,
-		courseType: normalizeCourseType($.type),
-		isPreSelect: $.isPreSelect,
-		isFirstRun: $.isFirstRun,
-		isMasterDoctor: $.isMasterDoctor,
-		isClosed: $.isClosed,
-		classRooms: [...new Set($.classRooms)],
-		memo: $.memo,
+		courseType: normalizeCourseType($.courseType),
+		// isPreSelect: $.isPreSelect,
+		// isFirstRun: $.isFirstRun,
+		// isMasterDoctor: $.isMasterDoctor,
+		// isClosed: $.isClosed,
+		// classRooms: [...new Set($.classRooms)],
+		// memo: $.memo,
 	};
 }
 
-function normalizeCourseType(type) {
-	if (type === '必修') return 'REQUIRED';
-	if (type === '選修') return 'ELECTIVE';
-	return type;
+function normalizeCourseType(courseType) {
+	if (courseType === '必修') return 'REQUIRED';
+	if (courseType === '選修') return 'ELECTIVE';
+	throw new Error(`Unknown course type: '${courseType}'`)
 }
 
 function deflateTeachers(teachersStr) {

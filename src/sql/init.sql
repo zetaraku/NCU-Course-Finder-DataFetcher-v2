@@ -53,16 +53,16 @@ CREATE TABLE course_bases (
 CREATE TABLE course_extras (
 	serial_no INTEGER,
 
-	course_type VARCHAR(4),			-- 'REQUIRED', 'ELECTIVE'
+	course_type VARCHAR(8),			-- 'REQUIRED', 'ELECTIVE'
 
-	is_pre_select BOOLEAN,
-	is_first_run BOOLEAN,
-	is_master_doctor BOOLEAN,
-	is_closed BOOLEAN,
+	-- is_pre_select BOOLEAN,
+	-- is_first_run BOOLEAN,
+	-- is_master_doctor BOOLEAN,
+	-- is_closed BOOLEAN,
 
-	class_rooms VARCHAR(160),
+	-- class_rooms VARCHAR(160),
 
-	memo VARCHAR(200),
+	-- memo VARCHAR(200),
 
 	PRIMARY KEY (serial_no)
 );

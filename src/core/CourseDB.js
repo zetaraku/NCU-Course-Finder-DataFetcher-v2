@@ -4,11 +4,13 @@ import SQLite3DBWrapper, { sql } from '../lib/sqlite3.js';
 import {
 	fetchCollegesWithDepartments,
 	fetchCourseBases,
+	fetchAllCourseExtras,
 } from '../helpers/fetch';
 import {
 	insertCollege,
 	insertDepartment,
 	insertCourseBase,
+	insertCourseExtra,
 } from '../helpers/insert';
 import {
 	retrieveColleges,
@@ -27,6 +29,7 @@ export default class CourseDB {
 		let collegesToInsert = [];
 		let departmentsToInsert = [];
 		let coursesToInsert = [];
+		let courseExtrasToInsert = [];
 
 		try {
 			console.log('Start fetching all colleges...');
@@ -52,6 +55,12 @@ export default class CourseDB {
 					coursesToInsert.push(...courses);
 				}
 			}
+
+			console.log(`Start fetching course extras...`);
+			let courseExtras = await fetchAllCourseExtras();
+			console.log(`OK, ${courseExtras.length} course extras fetched.`);
+
+			courseExtrasToInsert.push(...courseExtras);
 		} catch (e) {
 			console.error('Encounter an error while fetching data:', e);
 			process.exit(-1);
@@ -73,6 +82,8 @@ export default class CourseDB {
 			await Promise.all(departmentsToInsert.map(department => insertDepartment(db, department)));
 			console.log(`Inserting ${coursesToInsert.length} courses...`);
 			await Promise.all(coursesToInsert.map(course => insertCourseBase(db, course)));
+			console.log(`Inserting ${courseExtrasToInsert.length} course extras...`);
+			await Promise.all(courseExtrasToInsert.map(courseExtra => insertCourseExtra(db, courseExtra)));
 			console.log(`Writing LAST_UPDATE_TIME...`);
 			await this.writeVar('LAST_UPDATE_TIME', new Date().toISOString());
 		} catch (e) {
