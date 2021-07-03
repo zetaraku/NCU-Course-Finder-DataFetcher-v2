@@ -1,5 +1,4 @@
 /node_modules/
-/data/dynamic/*
-/db/*
+/data/
+/db/
 .env
-!.gitkeep
