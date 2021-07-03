@@ -50,8 +50,8 @@ export async function retrieveCourses(db) {
 		admitCnt: row.admit_cnt,
 		waitCnt: row.wait_cnt,
 
-		collegeIds: deflateArray(row.arr_college_id, ';'),
-		departmentIds: deflateArray(row.arr_department_id, ';'),
+		collegeIds: [...new Set(deflateArray(row.arr_college_id, ';'))],
+		departmentIds: [...new Set(deflateArray(row.arr_department_id, ';'))],
 
 		/* Course Extras: */
 
