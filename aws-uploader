@@ -1,0 +1,18 @@
+#!/bin/bash
+
+BUCKET_NAME='ncucf-data'
+
+case $1 in
+init)
+  aws s3 cp "./data/" "s3://$BUCKET_NAME/data/" --recursive --exclude '*/.gitkeep' --acl public-read
+  ;;
+upload)
+  aws s3 cp "./data/dynamic/all.json" "s3://$BUCKET_NAME/data/dynamic/all.json" --acl public-read
+  ;;
+deinit)
+  aws s3 rm "s3://$BUCKET_NAME/" --recursive
+  ;;
+*)
+  echo "Usage: ./aws-uploader (init|upload|deinit)"
+  ;;
+esac

@@ -29,7 +29,7 @@ The course data is located at `data/dynamic/all.json`.
 
 You can manually upload the data to somewhere else.
 
-There is also a `Makefile` using [AWS CLI](https://aws.amazon.com/cli/) to upload files to [Amazon S3](https://aws.amazon.com/tw/s3/); feel free to use it if you like.
+There is also a `./aws-uploader` using [AWS CLI](https://aws.amazon.com/cli/) to upload files to [Amazon S3](https://aws.amazon.com/tw/s3/); feel free to use it if you like.
 
 License
 -------
