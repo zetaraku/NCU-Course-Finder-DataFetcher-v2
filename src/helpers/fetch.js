@@ -108,7 +108,7 @@ export async function fetchAllCourseExtras() {
 
 		let courseExtras = $('#item tbody tr').get().map(tr => {
 			let serialNo = $(tr).find('td:nth-child(1)').html().split('<br>')[0];
-			let courseType = $(tr).find('td:nth-child(7)').text().trim();
+			let courseType = $(tr).find('td:nth-child(6)').text().trim();
 			return { serialNo, courseType }
 		});
 		result.push(...courseExtras);
