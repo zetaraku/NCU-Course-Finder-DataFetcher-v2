@@ -2,56 +2,15 @@ import axios from 'axios';
 import xml2js from 'xml2js';
 import cheerio from 'cheerio';
 import {
-	preprocessStatus,
-	preprocessCollege,
-	preprocessDepartment,
 	preprocessCourseBase,
 	preprocessCourseExtra,
 } from './preprocess';
 import 'dotenv/config';
 
-const ncu_api_remote_url = process.env.NCU_API_REMOTE_URL;
-const ncu_api_header = {
-	'X-NCU-API-TOKEN': process.env.NCU_API_TOKEN,
-	'Accept-Language': 'zh-TW',
-};
 const course_remote_url = process.env.COURSE_REMOTE_URL;
 const course_header = {
 	'Accept-Language': 'zh-TW',
 };
-
-/**
- * @deprecated NCU API is dead.
- */
-export async function fetchStatus() {
-	let resp = await axios.get(
-		`${ncu_api_remote_url}/course/v1/status`,
-		{ headers: ncu_api_header },
-	);
-	return preprocessStatus(resp.data);
-}
-
-/**
- * @deprecated NCU API is dead.
- */
-export async function fetchColleges() {
-	let resp = await axios.get(
-		`${ncu_api_remote_url}/course/v1/colleges`,
-		{ headers: ncu_api_header },
-	);
-	return resp.data.map($ => preprocessCollege($));
-}
-
-/**
- * @deprecated NCU API is dead.
- */
-export async function fetchDepartments(collegeId) {
-	let resp = await axios.get(
-		`${ncu_api_remote_url}/course/v1/colleges/${collegeId}/departments`,
-		{ headers: ncu_api_header },
-	);
-	return resp.data.map($ => preprocessDepartment($, collegeId));
-}
 
 export async function fetchCollegesWithDepartments() {
 	let response = await axios.get('https://cis.ncu.edu.tw/Course/main/query/byUnion');
@@ -81,17 +40,6 @@ export async function fetchCourseBases(departmentId, collegeId) {
 	});
 	let data = await xml2js.parseStringPromise(resp.data);
 	return (data.Courses.Course||[]).map(({ $ }) => preprocessCourseBase($, departmentId, collegeId));
-}
-
-/**
- * @deprecated NCU API is dead.
- */
-export async function fetchCourseExtras(departmentId) {
-	let resp = await axios.get(
-		`${ncu_api_remote_url}/course/v1/departments/${departmentId}/courses`,
-		{ headers: ncu_api_header },
-	);
-	return resp.data.map($ => preprocessCourseExtra($));
 }
 
 export async function fetchAllCourseExtras() {

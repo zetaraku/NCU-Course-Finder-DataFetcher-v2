@@ -1,26 +1,3 @@
-export function preprocessStatus($) {
-	return {
-		year: $.semester.substring(0, 3),
-		semester: $.semester.substring(3, 4),
-		stage: $.stage,
-	};
-};
-
-
-export function preprocessCollege($) {
-	return {
-		collegeId: $.id,
-		collegeName: $.name,
-	};
-}
-export function preprocessDepartment($, collegeId) {
-	return {
-		departmentId: $.id,
-		departmentName: $.name,
-
-		collegeId,
-	};
-}
 export function preprocessCourseBase($, departmentId, collegeId) {
 	return {
 		serialNo: Number($.SerialNo),
