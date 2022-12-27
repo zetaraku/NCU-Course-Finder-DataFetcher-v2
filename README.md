@@ -13,14 +13,16 @@ It uses [NCU Course Schedule Planning System](https://cis.ncu.edu.tw/) internal 
 Preparation
 -----------
 
-Run `npm install` to install the dependencies.
+- Make a copy of the `.env.example` file as `.env` and adjust it if needed.
+
+- Run `npm install` to install the dependencies.
 
 Update Course Data
 -------------------
 
 Use `npm run update` to update the course data.
 
-This command update the `course_bases` table described in `src/sql/init.sql`.
+This command updates the `course_bases` table described in `src/sql/init.sql`.
 
 Upload Course Data
 --------------
