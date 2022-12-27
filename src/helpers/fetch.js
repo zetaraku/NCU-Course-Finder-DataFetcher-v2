@@ -5,9 +5,8 @@ import {
 	preprocessCourseBase,
 	preprocessCourseExtra,
 } from './preprocess';
-import 'dotenv/config';
 
-const course_remote_url = process.env.COURSE_REMOTE_URL;
+const course_remote_url = 'https://cis.ncu.edu.tw/Course/main/support/course.xml';
 const course_header = {
 	'Accept-Language': 'zh-TW',
 };
