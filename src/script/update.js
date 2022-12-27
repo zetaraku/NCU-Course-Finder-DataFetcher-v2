@@ -8,7 +8,9 @@ import 'dotenv/config';
 	await courseDB.updateAll();
 
 	// update json file
+	console.log('Writing result into data/dynamic/all.json ...');
 	fs.mkdirSync('data/dynamic', { recursive: true });
 	let data = await courseDB.retrieveAll();
 	fs.writeFileSync('data/dynamic/all.json', JSON.stringify(data));
+	console.log('Done!');
 })();
