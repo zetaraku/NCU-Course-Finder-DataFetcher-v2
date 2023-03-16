@@ -41,9 +41,7 @@ export async function fetchCourseBases(departmentId, collegeId) {
 	return (data.Courses.Course||[]).map(({ $ }) => preprocessCourseBase($, departmentId, collegeId));
 }
 
-export async function fetchAllCourseExtras() {
-	let result = [];
-
+export async function* fetchAllCourseExtras() {
 	for (let pageNo = 1; true; pageNo++) {
 		let response = await axios.get(`https://cis.ncu.edu.tw/Course/main/query/byKeywords`, {
 			params: {
@@ -58,12 +56,11 @@ export async function fetchAllCourseExtras() {
 			let courseType = $(tr).find('td:nth-child(6)').text().trim();
 			return { serialNo, courseType }
 		});
-		result.push(...courseExtras);
+
+		yield { pageNo, courseExtras: courseExtras.map(preprocessCourseExtra) };
 
 		// break if no next page
 		let hasNextPage = $('.pagelinks > :last-child').is('a');
 		if (!hasNextPage) break;
 	}
-
-	return result.map(preprocessCourseExtra);
 }

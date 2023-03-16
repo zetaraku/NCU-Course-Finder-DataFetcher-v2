@@ -57,10 +57,11 @@ export default class CourseDB {
 			}
 
 			console.log(`Start fetching course extras...`);
-			let courseExtras = await fetchAllCourseExtras();
-			console.log(`OK, ${courseExtras.length} course extras fetched.`);
+			for await (let { pageNo, courseExtras } of fetchAllCourseExtras()) {
+				console.log(`-> OK, ${courseExtras.length} courses extras fetched on page ${pageNo}`);
 
-			courseExtrasToInsert.push(...courseExtras);
+        courseExtrasToInsert.push(...courseExtras);
+			}
 		} catch (e) {
 			console.error('Encounter an error while fetching data:', e);
 			process.exit(-1);
