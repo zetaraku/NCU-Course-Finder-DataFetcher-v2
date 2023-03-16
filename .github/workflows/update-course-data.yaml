@@ -1,0 +1,32 @@
+name: Update Course Data
+
+on:
+  schedule:
+    - cron: "5 0,3,6,9,12,15,18,21 * * *"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::780365179946:role/my-github-actions-role
+        aws-region: ap-northeast-1
+    - name: Install dependencies
+      run: npm ci
+    - name: Fetch course data
+      run: npm run update
+    - name: Upload course data to AWS S3 bucket
+      run: ./aws-uploader upload
