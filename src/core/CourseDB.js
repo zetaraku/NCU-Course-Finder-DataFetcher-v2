@@ -34,15 +34,16 @@ export default class CourseDB {
 		try {
 			console.log('Start fetching all colleges...');
 			let colleges = await fetchCollegesWithDepartments();
-			console.log(`OK, ${colleges.length} colleges fetched.`);
+			console.log(`-> OK, ${colleges.length} colleges fetched.`);
 
+			console.log();
+
+			console.log(`Start fetching all courses...`);
 			for (let [collegeIndex, college] of colleges.entries()) {
 				console.log(`College ${college.collegeId} (${collegeIndex+1}/${colleges.length}):`);
 				collegesToInsert.push(college);
 
-				console.log(`  Start fetching departments of ${college.collegeId}...`);
 				let departments = college.departments;
-				console.log(`  OK, ${departments.length} departments fetched.`);
 
 				for (let [departmentIndex, department] of departments.entries()) {
 					console.log(`  Department ${department.departmentId} (${departmentIndex+1}/${departments.length}):`);
@@ -50,13 +51,15 @@ export default class CourseDB {
 
 					console.log(`    Start fetching courses of ${department.departmentId}...`);
 					let courses = await fetchCourseBases(department.departmentId, college.collegeId);
-					console.log(`    OK, ${courses.length} courses fetched.`);
+					console.log(`    -> OK, ${courses.length} courses fetched.`);
 
 					coursesToInsert.push(...courses);
 				}
 			}
 
-			console.log(`Start fetching course extras...`);
+			console.log();
+
+			console.log(`Start fetching all course extras...`);
 			for await (let { pageNo, courseExtras } of fetchAllCourseExtras()) {
 				console.log(`-> OK, ${courseExtras.length} courses extras fetched on page ${pageNo}`);
 
