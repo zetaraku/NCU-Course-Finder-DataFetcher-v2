@@ -1,7 +1,7 @@
 export function preprocessCourseBase($, departmentId, collegeId) {
 	return {
 		serialNo: Number($.SerialNo),
-		classNo: $.ClassNo,
+		classNo: `${$.ClassNo.slice(0, 6)}-${$.ClassNo.slice(6)}`,
 		title: $.Title,
 
 		credit: Number($.credit),
