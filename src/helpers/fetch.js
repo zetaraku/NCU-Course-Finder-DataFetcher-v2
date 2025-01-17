@@ -44,6 +44,7 @@ export async function fetchCourseBases(departmentId, collegeId) {
 export async function* fetchAllCourseExtras() {
 	for (let pageNo = 1; true; pageNo++) {
 		let response = await axios.get(`https://cis.ncu.edu.tw/Course/main/query/byKeywords`, {
+      headers: course_header,
 			params: {
 				'd-49489-p': pageNo,
 				query: true,
